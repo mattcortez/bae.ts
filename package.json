@@ -1,25 +1,36 @@
 {
   "name": "bae.ts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Bae is an exclusive application for the mafoos server.",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node .",
-    "dev": "nodemon --config nodemon.json src/index.ts"
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\"",
+    "watch": "tsc -w"
   },
   "keywords": [],
-  "author": "",
+  "author": "mafeu",
   "license": "ISC",
   "dependencies": {
+    "ascii-table": "^0.0.9",
+    "chalk": "^5.1.2",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.3",
-    "mongoose": "^6.7.2"
+    "module-alias": "^2.2.2",
+    "mongoose": "^6.7.4"
   },
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/module-alias": "^2.0.1",
     "@types/node": "^18.11.9",
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.19",
-    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.9.3"
+  },
+  "_moduleAliases": {
+    "@bae": "dist/",
+    "@utils": "dist/utils/"
   }
 }

@@ -1,8 +1,8 @@
 import "module-alias/register";
-import config from "@utils/dotenv";
-import { Client, GatewayIntentBits, Partials, Collection } from "discord.js";
+import { GatewayIntentBits, Partials } from "discord.js";
+import { BaeClient } from "@bae/extensions/client";
 
-const client = new Client({
+const client = new BaeClient({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
@@ -33,9 +33,4 @@ const client = new Client({
   ],
 });
 
-client
-  .login(config.CLIENT_TOKEN)
-  .then(() => {
-    console.log("Logged in");
-  })
-  .catch((err) => console.log(err));
+client.start();

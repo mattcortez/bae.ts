@@ -3,13 +3,12 @@ import { ActivityType } from "discord.js";
 import mongoose from "mongoose";
 import config from "@bae/lib/utils/dotenv";
 import chalk from "chalk";
+import deploy from "@bae/lib/structures/deploy";
 
 export const event: Event<any> = {
   id: "ready",
-  once: false,
+  once: true,
   execute: async ({ log }, client) => {
-    log(`Logged in as ${client.user?.tag}`);
-
     // Presence
     function presence() {
       client.user.setPresence({
@@ -22,8 +21,9 @@ export const event: Event<any> = {
         status: "online",
       });
     }
-
     setInterval(presence, 30000);
+
+    log(chalk.green(`Logged in as ${client.user?.tag}`));
 
     if (!config.MONGO_URI) return;
     mongoose
@@ -34,5 +34,7 @@ export const event: Event<any> = {
       .catch((err) => {
         console.log(err);
       });
+
+    deploy(client);
   },
 };

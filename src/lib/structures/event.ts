@@ -20,21 +20,36 @@ export function registerEvents(client: BaeClient): void {
     );
 
     for (const file of files) {
-      const event = require(`${process.cwd()}/dist/events/${folder}/${file}`);
+      const {
+        event,
+      } = require(`${process.cwd()}/dist/events/${folder}/${file}`);
 
-      client.on(event.event.id, async (...args) => {
-        const props = {
-          client,
-          log: (...args: unknown[]) =>
-            console.log(`[${event.event.id}]`, ...args),
-        };
+      const props = {
+        client,
+        log: (...args: unknown[]) =>
+          console.log(
+            chalk.green(`[\`events/${folder}/\` ${event.id}]`),
+            ...args
+          ),
+      };
 
-        try {
-          await event.event.execute(props, ...args);
-        } catch (error) {
-          props.log("Uncaught error", error);
-        }
-      });
+      if (event.once) {
+        client.once(event.id, async (...args) => {
+          try {
+            await event.execute(props, ...args);
+          } catch (error) {
+            props.log("Uncaught error", error);
+          }
+        });
+      } else {
+        client.on(event.id, async (...args) => {
+          try {
+            await event.execute(props, ...args);
+          } catch (error) {
+            props.log("Uncaught error", error);
+          }
+        });
+      }
 
       table.addRow(file, folder, "✓");
     }

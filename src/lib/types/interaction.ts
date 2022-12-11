@@ -1,11 +1,15 @@
-import { Awaitable, ContextMenuCommandInteraction } from "discord.js";
+import {
+  Awaitable,
+  ButtonInteraction,
+  ModalSubmitInteraction,
+} from "discord.js";
 import BaeClient from "../extensions/BaeClient";
 
 type LoggerFunction = (...args: unknown[]) => void;
 
 export interface InteractionProperties {
   client: BaeClient;
-  interaction: ContextMenuCommandInteraction;
+  interaction: ButtonInteraction | ModalSubmitInteraction;
   log: LoggerFunction;
 }
 

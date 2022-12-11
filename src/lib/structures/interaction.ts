@@ -2,10 +2,12 @@ import { InteractionExec } from "@bae/lib/types/interaction";
 import { readdirSync } from "fs";
 import BaeClient from "../extensions/BaeClient";
 import chalk from "chalk";
+import { PermissionResolvable } from "discord.js";
 const asciiTable = require("ascii-table");
 
 export default interface Interaction {
   name: string;
+  permissions: PermissionResolvable[];
   execute: InteractionExec;
 }
 

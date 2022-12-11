@@ -1,4 +1,10 @@
-import { EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+  SlashCommandBuilder,
+} from "discord.js";
 import DB from "@bae/lib/structures/schemas/configDB";
 import Command from "@bae/lib/structures/command";
 
@@ -124,13 +130,25 @@ export const command: Command = {
                 text: `Select an option you want to edit using the buttons below.`,
               });
 
+            const actionRow =
+              new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                  .setCustomId("testButton")
+                  .setLabel("Roll again")
+                  .setStyle(ButtonStyle.Secondary)
+              );
+
             const savedEmbed = new EmbedBuilder()
               .setColor(`#2f3136`)
               .setDescription(
                 `${FUNCTION_SUCCESS_EMOJI} **Saved settings and exited configuration menu.**`
               );
 
-            interaction.reply({ embeds: [configEmbed], ephemeral: true });
+            interaction.reply({
+              embeds: [configEmbed],
+              components: [actionRow],
+              ephemeral: false,
+            });
 
             setTimeout(function () {
               interaction.editReply({ embeds: [savedEmbed] });

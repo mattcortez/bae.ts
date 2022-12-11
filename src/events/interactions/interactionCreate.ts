@@ -10,12 +10,13 @@ export const event: Event<any> = {
   id: "interactionCreate",
   once: false,
   execute: async ({ log, client }, interaction: Interaction) => {
-    log('Interaction detected')
+    
     const cooldowns: Collection<string, number> = client.cooldowns
   
-    
     if (!InteractionType.ApplicationCommand) return;
     if (!interaction.isChatInputCommand()) return;
+    log('Chat input command detected')
+
 
     const command = client.commands.get(interaction.commandName)
     if (!command) return client.commands.delete(interaction.commandName);

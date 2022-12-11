@@ -25,7 +25,7 @@ export const event: Event<any> = {
       if (!command.cooldown) {
         if (command.userPermissions || command.botPermissions) {
           if (!interaction.memberPermissions?.has(PermissionsBitField.resolve(command.userPermissions || []))) {
-            const content = bold(`${emojis.error} You don't have ${command.userPermissions} permissions to use this command!`)
+            const content = bold(`${emojis.error} You do not have ${command.userPermissions} permissions to use this command!`)
             const userPermsEmbed = new EmbedBuilder()
             .setColor(colors.default as HexColorString)
             .setDescription(content)
@@ -33,7 +33,7 @@ export const event: Event<any> = {
           }
           if (client.user?.id === undefined) return;
           if (!interaction.guild?.members.cache.get(client.user?.id)?.permissions.has(PermissionsBitField.resolve(command.botPermissions || []))) {
-            const content = bold(`${emojis.error} You don't have ${command.userPermissions} permissions to use this command!`)
+            const content = bold(`${emojis.error} You do not have ${command.userPermissions} permissions to use this command!`)
             const botPermsEmbed = new EmbedBuilder()
             .setColor(colors.default as HexColorString)
             .setDescription(content)
@@ -57,7 +57,7 @@ export const event: Event<any> = {
 
         if (command.userPermissions || command.botPermissions) {
           if(!interaction.memberPermissions?.has(PermissionsBitField.resolve(command.userPermissions || []))) {
-          const content = bold(`${emojis.error} You don't have ${command.userPermissions} permissions to use this command!`)
+          const content = bold(`${emojis.error} You do not have ${command.userPermissions} permissions to use this command!`)
           const userPermsEmbed = new EmbedBuilder()
           .setColor(colors.default as HexColorString)
           .setDescription(content)
@@ -65,7 +65,7 @@ export const event: Event<any> = {
           }
           if (client.user?.id === undefined) return;
           if (!interaction.guild?.members.cache.get(client.user?.id)?.permissions.has(PermissionsBitField.resolve(command.botPermissions || []))) {
-            const content = bold(`${emojis.error} You don't have ${command.userPermissions} permissions to use this command!`)
+            const content = bold(`${emojis.error} You do not have ${command.userPermissions} permissions to use this command!`)
             const botPermsEmbed = new EmbedBuilder()
             .setColor(colors.default as HexColorString)
             .setDescription(content)

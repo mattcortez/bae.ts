@@ -25,6 +25,7 @@ export const command: Command = {
     const TOGGLED_OFF_EMOJI = "<:toggleoff:1005583615658303519>";
     const BUTTON_ON_EMOJI = "<:buttonon:1005970971355783198>";
     const BUTTON_OFF_EMOJI = "<:buttonoff:1005970996215431278>";
+    console.log(client.commands);
 
     try {
       DB.findOneAndUpdate(

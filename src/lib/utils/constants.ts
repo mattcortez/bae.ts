@@ -16,19 +16,7 @@ let emojis = {
     TimeoutRemove: "<:logTimeoutRemove:1050335450709106698>",
   },
   badges: {
-    DISCORD_EMPLOYEE: "<:DiscordStaff:844154550402809916>",
-    PARTNERED_SERVER_OWNER: "<:partnericon:844154710637805580>",
-    HYPESQUAD_EVENTS: "<:HypesquadEvents:698349980192079882>",
-    BUGHUNTER_LEVEL_1: "<:BugHunter:844155858354962432>",
-    BUGHUNTER_LEVEL_2: "<:GoldBugHunter:698350544103669771>",
-    EARLY_SUPPORTER: "<:EarlySupporter:698350657073053726>",
-    VERIFIED_BOT:
-      "<:verifiedbot1:943307495319937094><:verifiedbot2:943307562604978187>",
-    EARLY_VERIFIED_BOT_DEVELOPER: "<:VerifiedBotDev:720179031785340938>",
-    DISCORD_CERTIFIED_MODERATOR: "<:CertifiedModerator:844189980305653790>",
-    PARTNERED: "<:PartnerWithBanner:844154648680071189>",
-    VERIFIED: "<:VerifiedWithBanner:751196492517081189>",
-    OWNER: "<:ownercrown:831858918161776661>",
+    developer: "",
   },
 };
 

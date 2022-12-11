@@ -16,6 +16,7 @@ export const contextMenu: ContextMenu = {
     .setType(ApplicationCommandType.User)
     .setDMPermission(false),
   global: false,
+  cooldown: 10_000,
   execute: async ({ client, interaction, log }) => {
     const user = (interaction as UserContextMenuCommandInteraction).targetUser;
 

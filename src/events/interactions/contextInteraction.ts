@@ -21,22 +21,23 @@ export const event: Event<any> = {
     const cooldowns: Collection<string, number> = client.cooldowns;
 
     if (!InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
-    log("Chat input command detected");
+    if (!interaction.isContextMenuCommand()) return;
+    log("Context menu command detected");
 
-    const command = client.commands.get(interaction.commandName);
-    if (!command) return client.commands.delete(interaction.commandName);
+    const contextMenu = client.contextMenus.get(interaction.commandName);
+    if (!contextMenu)
+      return client.contextMenus.delete(interaction.commandName);
 
     try {
-      if (!command.cooldown) {
-        if (command.userPermissions || command.botPermissions) {
+      if (!contextMenu.cooldown) {
+        if (contextMenu.userPermissions || contextMenu.botPermissions) {
           if (
             !interaction.memberPermissions?.has(
-              PermissionsBitField.resolve(command.userPermissions || [])
+              PermissionsBitField.resolve(contextMenu.userPermissions || [])
             )
           ) {
             const content = bold(
-              `${emojis.error} You do not have ${command.userPermissions} permissions to use this command!`
+              `${emojis.error} You do not have ${contextMenu.userPermissions} permissions to use this command!`
             );
             const userPermsEmbed = new EmbedBuilder()
               .setColor(colors.default as HexColorString)
@@ -51,11 +52,11 @@ export const event: Event<any> = {
             !interaction.guild?.members.cache
               .get(client.user?.id)
               ?.permissions.has(
-                PermissionsBitField.resolve(command.botPermissions || [])
+                PermissionsBitField.resolve(contextMenu.botPermissions || [])
               )
           ) {
             const content = bold(
-              `${emojis.error} I do not have ${command.botPermissions} permissions to execute this command!`
+              `${emojis.error} I do not have ${contextMenu.botPermissions} permissions to execute this command!`
             );
             const botPermsEmbed = new EmbedBuilder()
               .setColor(colors.default as HexColorString)
@@ -66,15 +67,17 @@ export const event: Event<any> = {
             });
           }
         }
-        await command.execute({ client, interaction, log });
+        await contextMenu.execute({ client, interaction, log });
       }
 
-      if (command.cooldown) {
+      if (contextMenu.cooldown) {
         if (
-          cooldowns.has(`slash-${command.options.name}${interaction.user.id}`)
+          cooldowns.has(
+            `slash-${contextMenu.options.name}${interaction.user.id}`
+          )
         ) {
           const getCooldown = cooldowns.get(
-            `slash-${command.options.name}${interaction.user.id}`
+            `slash-${contextMenu.options.name}${interaction.user.id}`
           );
           if (getCooldown === undefined) return;
           const cooldownTime = ms(getCooldown - Date.now(), { long: true });
@@ -90,14 +93,14 @@ export const event: Event<any> = {
           });
         }
 
-        if (command.userPermissions || command.botPermissions) {
+        if (contextMenu.userPermissions || contextMenu.botPermissions) {
           if (
             !interaction.memberPermissions?.has(
-              PermissionsBitField.resolve(command.userPermissions || [])
+              PermissionsBitField.resolve(contextMenu.userPermissions || [])
             )
           ) {
             const content = bold(
-              `${emojis.error} You do not have ${command.userPermissions} permissions to use this command!`
+              `${emojis.error} You do not have ${contextMenu.userPermissions} permissions to use this command!`
             );
             const userPermsEmbed = new EmbedBuilder()
               .setColor(colors.default as HexColorString)
@@ -112,11 +115,11 @@ export const event: Event<any> = {
             !interaction.guild?.members.cache
               .get(client.user?.id)
               ?.permissions.has(
-                PermissionsBitField.resolve(command.botPermissions || [])
+                PermissionsBitField.resolve(contextMenu.botPermissions || [])
               )
           ) {
             const content = bold(
-              `${emojis.error} I do not have ${command.botPermissions} permissions to execute this command!`
+              `${emojis.error} I do not have ${contextMenu.botPermissions} permissions to execute this command!`
             );
             const botPermsEmbed = new EmbedBuilder()
               .setColor(colors.default as HexColorString)
@@ -127,16 +130,16 @@ export const event: Event<any> = {
             });
           }
         }
-        await command.execute({ client, interaction, log });
+        await contextMenu.execute({ client, interaction, log });
         cooldowns.set(
-          `slash-${command.options.name}${interaction.user.id}`,
-          Date.now() + command.cooldown
+          `slash-${contextMenu.options.name}${interaction.user.id}`,
+          Date.now() + contextMenu.cooldown
         );
         setTimeout(() => {
           cooldowns.delete(
-            `slash-${command.options.name}${interaction.user.id}`
+            `slash-${contextMenu.options.name}${interaction.user.id}`
           );
-        }, command.cooldown);
+        }, contextMenu.cooldown);
       }
     } catch (error: unknown) {
       if (error! instanceof Error) {

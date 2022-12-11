@@ -2,8 +2,11 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
+  ChannelType,
   EmbedBuilder,
   SlashCommandBuilder,
+  TextChannel,
+  ThreadAutoArchiveDuration,
 } from "discord.js";
 import DB from "@bae/lib/structures/schemas/configDB";
 import Command from "@bae/lib/structures/command";
@@ -23,6 +26,16 @@ export const command: Command = {
   cooldown: 5000,
   execute: async ({ client, interaction, log }) => {
     log("Config command");
+
+    // const channel: TextChannel =
+    //   client.channels.cache.get(`982020497552334848`);
+    // if (!channel) return;
+    // const thread = await channel.threads.create({
+    //   name: "Bae Logs",
+    //   autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+    //   type: ChannelType.PrivateThread,
+    // });
+    // console.log(thread);
     const { guild } = interaction;
 
     const FUNCTION_ERROR_EMOJI = "<:functionError:972554416970399825>";

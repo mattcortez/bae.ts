@@ -1,4 +1,4 @@
-import { ContextMenuCommandBuilder } from "discord.js";
+import { ContextMenuCommandBuilder, PermissionResolvable } from "discord.js";
 import { ContextMenuExec } from "@bae/lib/types/context";
 import { readdirSync } from "fs";
 import BaeClient from "../extensions/BaeClient";
@@ -8,6 +8,9 @@ const asciiTable = require("ascii-table");
 export default interface ContextMenu {
   options: ContextMenuCommandBuilder;
   global: Boolean;
+  userPermissions?: PermissionResolvable[];
+  botPermissions?: PermissionResolvable[];
+  cooldown: number;
   execute: ContextMenuExec;
 }
 

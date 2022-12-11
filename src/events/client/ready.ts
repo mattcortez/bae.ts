@@ -1,4 +1,4 @@
-import Event from "../../lib/structures/event";
+import Event from "@bae/lib/structures/event";
 import { ActivityType } from "discord.js";
 import mongoose from "mongoose";
 import config from "@bae/lib/utils/dotenv";

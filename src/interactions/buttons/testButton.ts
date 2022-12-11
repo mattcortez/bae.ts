@@ -4,9 +4,9 @@ export const interaction: Interaction = {
   name: "testButton",
   permissions: ["Administrator"],
   execute: async ({ client, interaction, log }) => {
-    log("Test log from button");
+    log(`${interaction.user.tag} clicked on testButton`);
     interaction.reply({
-      content: `This is a test button from ${client.user?.tag}`,
+      content: `Hey lol`,
       ephemeral: true,
     });
   },

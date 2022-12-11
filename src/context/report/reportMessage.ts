@@ -12,6 +12,7 @@ export const contextMenu: ContextMenu = {
     .setType(ApplicationCommandType.Message)
     .setDMPermission(false),
   global: false,
+  cooldown: 10_000,
   execute: async ({ client, interaction, log }) => {
     const message = (interaction as MessageContextMenuCommandInteraction)
       .targetMessage;

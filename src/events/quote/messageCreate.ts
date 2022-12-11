@@ -42,7 +42,7 @@ export const event: Event<any> = {
 
       // Manipulate string to convey attachments/embed/files
       let description = "";
-      var hasAttachment =
+      let hasAttachment =
         targetMessage.attachments.size > 0
           ? "*This message contains an attachment* <:messageFile:990919075851034634>"
           : null;
@@ -50,12 +50,12 @@ export const event: Event<any> = {
         hasAttachment =
           "*This message contains multiple attachments* <:messageFile:990919075851034634>";
 
-      var hasSticker =
+      let hasSticker =
         targetMessage.stickers.size > 0
           ? "*This message contains a sticker* <:messageSticker:990949959589331044>"
           : null;
 
-      var hasBoth =
+      let hasBoth =
         targetMessage.attachments.size > 0 && targetMessage.stickers.size > 0
           ? "*This message contains an attachment and a sticker* <:messageFile:990919075851034634><:messageSticker:990949959589331044>"
           : null;

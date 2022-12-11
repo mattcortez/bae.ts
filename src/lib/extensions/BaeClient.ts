@@ -8,7 +8,7 @@ export default class BaeClient extends Client {
   commands: Collection<string, Command> = new Collection();
   // events: Collection<string, Event> = new Collection();
   contextMenus: Collection<string, ContextMenu> = new Collection();
-  cooldown: Collection<string, number> = new Collection();
+  cooldowns: Collection<string, number> = new Collection();
 
   constructor(options: ClientOptions) {
     super(options);

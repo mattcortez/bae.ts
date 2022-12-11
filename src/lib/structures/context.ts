@@ -36,5 +36,5 @@ export async function registerContextMenus(client: BaeClient): Promise<void> {
     }
   }
 
-  return console.log(chalk.red(table.toString()));
+  return console.log(chalk.cyanBright(table.toString()));
 }

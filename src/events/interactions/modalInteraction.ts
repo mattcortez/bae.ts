@@ -1,9 +1,9 @@
 import {
   bold,
-  ButtonInteraction,
   EmbedBuilder,
   HexColorString,
   InteractionType,
+  ModalSubmitInteraction,
   PermissionsBitField,
   RepliableInteraction,
 } from "discord.js";
@@ -15,25 +15,23 @@ const { emojis, colors } = constants;
 export const event: Event<any> = {
   id: "interactionCreate",
   once: false,
-  execute: async ({ log, client }, interaction: ButtonInteraction) => {
-    if (!InteractionType.MessageComponent) return;
-    if (!interaction.isButton()) return;
-    log("Button click detected");
+  execute: async ({ log, client }, interaction: ModalSubmitInteraction) => {
+    if (!InteractionType.ModalSubmit) return;
+    if (!interaction.isModalSubmit()) return;
+    log("Modal submit detected");
 
-    // const button = client.interactions.get(interaction.customId);
-
-    const button = client.interactions.get(interaction.customId);
-    if (!button) return;
+    const modal = client.interactions.get(interaction.customId);
+    if (!modal) return;
 
     try {
-      if (button.permissions) {
+      if (modal.permissions) {
         if (
           !interaction.memberPermissions?.has(
-            PermissionsBitField.resolve(button.permissions || [])
+            PermissionsBitField.resolve(modal.permissions || [])
           )
         ) {
           const content = bold(
-            `${emojis.error} You do not have ${button.permissions} permissions to use this button!`
+            `${emojis.error} You do not have ${modal.permissions} permissions to use this modal!`
           );
           const userPermsEmbed = new EmbedBuilder()
             .setColor(colors.default as HexColorString)
@@ -44,7 +42,7 @@ export const event: Event<any> = {
           });
         }
       }
-      await button.execute({
+      await modal.execute({
         client,
         interaction,
         log,

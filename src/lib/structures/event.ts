@@ -27,10 +27,7 @@ export function registerEvents(client: BaeClient): void {
       const props = {
         client,
         log: (...args: unknown[]) =>
-          console.log(
-            chalk.green(`[\`events/${folder}/\` ${event.id}]`),
-            ...args
-          ),
+          console.log(chalk.green(`[${event.id}]`), ...args),
       };
 
       if (event.once) {

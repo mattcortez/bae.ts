@@ -31,7 +31,7 @@ export const event: Event<any> = {
           )
         ) {
           const content = bold(
-            `${emojis.error} You do not have ${selectMenu.permissions} permissions to use this button!`
+            `${emojis.error} You do not have ${selectMenu.permissions} permissions to use this select menu!`
           );
           const userPermsEmbed = new EmbedBuilder()
             .setColor(colors.default as HexColorString)

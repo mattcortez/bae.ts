@@ -12,7 +12,7 @@ export const interaction: Interaction = {
     const content = bold(`${emojis.success} SLECT MENU TEST`);
 
     const modalSuccessEmbed = new EmbedBuilder()
-      .setColor(colors.default as HexColorString)
+      .setColor(colors.embed.default as HexColorString)
       .setDescription(content);
 
     interaction.reply({ embeds: [modalSuccessEmbed], ephemeral: true });

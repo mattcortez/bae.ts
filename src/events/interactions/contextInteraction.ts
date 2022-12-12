@@ -40,7 +40,7 @@ export const event: Event<any> = {
               `${emojis.error} You do not have ${contextMenu.userPermissions} permissions to use this command!`
             );
             const userPermsEmbed = new EmbedBuilder()
-              .setColor(colors.default as HexColorString)
+              .setColor(colors.embed.default as HexColorString)
               .setDescription(content);
             return interaction.reply({
               embeds: [userPermsEmbed],
@@ -59,7 +59,7 @@ export const event: Event<any> = {
               `${emojis.error} I do not have ${contextMenu.botPermissions} permissions to execute this command!`
             );
             const botPermsEmbed = new EmbedBuilder()
-              .setColor(colors.default as HexColorString)
+              .setColor(colors.embed.default as HexColorString)
               .setDescription(content);
             return interaction.reply({
               embeds: [botPermsEmbed],
@@ -85,7 +85,7 @@ export const event: Event<any> = {
             `${emojis.cooldown} You are on ${cooldownTime} cooldown!`
           );
           const cooldownEmbed = new EmbedBuilder()
-            .setColor(colors.default as HexColorString)
+            .setColor(colors.embed.default as HexColorString)
             .setDescription(content);
           return interaction.reply({
             embeds: [cooldownEmbed],
@@ -103,7 +103,7 @@ export const event: Event<any> = {
               `${emojis.error} You do not have ${contextMenu.userPermissions} permissions to use this command!`
             );
             const userPermsEmbed = new EmbedBuilder()
-              .setColor(colors.default as HexColorString)
+              .setColor(colors.embed.default as HexColorString)
               .setDescription(content);
             return interaction.reply({
               embeds: [userPermsEmbed],
@@ -122,7 +122,7 @@ export const event: Event<any> = {
               `${emojis.error} I do not have ${contextMenu.botPermissions} permissions to execute this command!`
             );
             const botPermsEmbed = new EmbedBuilder()
-              .setColor(colors.default as HexColorString)
+              .setColor(colors.embed.default as HexColorString)
               .setDescription(content);
             return interaction.reply({
               embeds: [botPermsEmbed],

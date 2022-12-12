@@ -14,7 +14,7 @@ export const interaction: Interaction = {
     );
 
     const modalSuccessEmbed = new EmbedBuilder()
-      .setColor(colors.default as HexColorString)
+      .setColor(colors.embed.default as HexColorString)
       .setDescription(content);
 
     interaction.reply({ embeds: [modalSuccessEmbed], ephemeral: true });

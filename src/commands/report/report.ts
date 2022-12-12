@@ -35,10 +35,10 @@ export const command: Command = {
 
     const reportInput = new TextInputBuilder()
       .setCustomId("reportInput")
-      .setRequired(true)
-      .setMinLength(20)
+      .setRequired(false)
+      .setMinLength(10)
       .setMaxLength(1000)
-      .setLabel(`📫 Write a comment about ${targetGuildUser?.displayName}`)
+      .setLabel(`✏️ Write a comment about ${targetGuildUser?.displayName}`)
       .setStyle(TextInputStyle.Paragraph)
       .setPlaceholder("Advertising, discriminating...");
 

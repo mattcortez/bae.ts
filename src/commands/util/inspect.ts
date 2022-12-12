@@ -8,6 +8,8 @@ import { constants } from "@bae/lib/utils/constants";
 import { format, formatDistanceStrict } from "date-fns";
 import Command from "@bae/lib/structures/command";
 
+const { colors } = constants;
+
 export const command: Command = {
   options: new SlashCommandBuilder()
     .setName("inspect")
@@ -74,7 +76,7 @@ export const command: Command = {
 
     // Create the embed
     const inspectUserEmbed = new EmbedBuilder()
-      .setColor(constants.colors.default as HexColorString)
+      .setColor(colors.embed.default as HexColorString)
       .setAuthor({
         name: `${targetUser.tag} ${
           targetGuildUser.nickname ? `(aka ${targetGuildUser.nickname})` : ``

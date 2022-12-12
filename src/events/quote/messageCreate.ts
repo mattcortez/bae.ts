@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import Event from "../../lib/structures/event";
 import { constants } from "@bae/lib/utils/constants";
-const { regexes } = constants;
+const { regexes, colors } = constants;
 
 export const event: Event<any> = {
   id: "messageCreate",
@@ -86,7 +86,7 @@ export const event: Event<any> = {
           name: `${targetMessage.author.tag}`,
           iconURL: `${targetMessage.author.displayAvatarURL()}`,
         })
-        .setColor(constants.colors.default as HexColorString)
+        .setColor(colors.embed.default as HexColorString)
         .setDescription(`${description}`);
       //.setFooter({ text: `#${channel.name}` })
       //.setTimestamp(targetMessage.createdTimestamp);

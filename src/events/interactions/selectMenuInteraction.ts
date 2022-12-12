@@ -1,6 +1,6 @@
 import {
+  AnySelectMenuInteraction,
   bold,
-  ButtonInteraction,
   EmbedBuilder,
   HexColorString,
   InteractionType,
@@ -15,23 +15,23 @@ const { emojis, colors } = constants;
 export const event: Event<any> = {
   id: "interactionCreate",
   once: false,
-  execute: async ({ log, client }, interaction: ButtonInteraction) => {
+  execute: async ({ log, client }, interaction: AnySelectMenuInteraction) => {
     if (!InteractionType.MessageComponent) return;
-    if (!interaction.isButton()) return;
-    log("Button click detected");
+    if (!interaction.isAnySelectMenu()) return;
+    log("Select menu interaction detected");
 
-    const button = client.interactions.get(interaction.customId);
-    if (!button) return;
+    const selectMenu = client.interactions.get(interaction.customId);
+    if (!selectMenu) return;
 
     try {
-      if (button.permissions) {
+      if (selectMenu.permissions) {
         if (
           !interaction.memberPermissions?.has(
-            PermissionsBitField.resolve(button.permissions || [])
+            PermissionsBitField.resolve(selectMenu.permissions || [])
           )
         ) {
           const content = bold(
-            `${emojis.error} You do not have ${button.permissions} permissions to use this button!`
+            `${emojis.error} You do not have ${selectMenu.permissions} permissions to use this button!`
           );
           const userPermsEmbed = new EmbedBuilder()
             .setColor(colors.default as HexColorString)
@@ -42,7 +42,7 @@ export const event: Event<any> = {
           });
         }
       }
-      await button.execute({
+      await selectMenu.execute({
         client,
         interaction,
         log,

@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 import Event from "../../lib/structures/event";
 import { constants } from "@bae/lib/utils/constants";
-const { regexes, emojis } = constants;
+const { regexes } = constants;
 
 export const event: Event<any> = {
   id: "messageCreate",

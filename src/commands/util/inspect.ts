@@ -32,45 +32,41 @@ export const command: Command = {
   cooldown: 5000,
   execute: async ({ client, interaction, log }) => {
     const user = interaction.options.getUser("user", false) || interaction.user;
-    const ephemeral = interaction.options.getBoolean("ephemeral", false);
+    const isEphemeral = interaction.options.getBoolean("ephemeral", false);
 
     const targetUser = await client.users.fetch(user, { force: true });
     const targetGuildUser = await interaction.guild?.members.fetch(user);
-    if (targetGuildUser === undefined) return;
+    if (!targetGuildUser)
+      return interaction.reply({
+        content: "Member not found",
+        ephemeral: true,
+      });
 
     // Format created/join dates
-    const CREATED_AT_DATE = targetUser.createdAt;
-    const JOINED_AT_DATE = targetGuildUser.joinedAt;
-    if (!JOINED_AT_DATE)
+    const createdAtDate = targetUser.createdAt;
+    const joinedAtDate = targetGuildUser.joinedAt;
+    if (!joinedAtDate)
       return interaction.reply({
         content: "Member is not part of this guild!",
       });
 
-    const CREATED_SINCE_FORMAT = formatDistanceStrict(
-      CREATED_AT_DATE,
-      new Date(),
-      {
-        unit: "day",
-        addSuffix: true,
-      }
-    );
-    const CREATED_AT_DATE_FORMAT = format(CREATED_AT_DATE, "dd MMM yyyy");
-    const CREATED_AT_TIME_FORMAT = CREATED_AT_DATE.toLocaleTimeString("en-us", {
+    const createdSinceFormat = formatDistanceStrict(createdAtDate, new Date(), {
+      unit: "day",
+      addSuffix: true,
+    });
+    const createdAtDateFormat = format(createdAtDate, "dd MMM yyyy");
+    const createdAtTimeFormat = createdAtDate.toLocaleTimeString("en-us", {
       timeZone: "UTC",
       timeStyle: "long",
       hour12: false,
     });
 
-    const JOINED_SINCE_FORMAT = formatDistanceStrict(
-      JOINED_AT_DATE,
-      new Date(),
-      {
-        unit: "day",
-        addSuffix: true,
-      }
-    );
-    const JOINED_AT_DATE_FORMAT = format(JOINED_AT_DATE, "dd MMM yyyy");
-    const JOINED_AT_TIME_FORMAT = JOINED_AT_DATE.toLocaleTimeString("en-us", {
+    const joinedSinceFormat = formatDistanceStrict(joinedAtDate, new Date(), {
+      unit: "day",
+      addSuffix: true,
+    });
+    const joinedAtDateFormat = format(joinedAtDate, "dd MMM yyyy");
+    const joinedAtTimeFormat = joinedAtDate.toLocaleTimeString("en-us", {
       timeZone: "UTC",
       timeStyle: "long",
       hour12: false,
@@ -100,31 +96,40 @@ export const command: Command = {
         {
           name: "Created at:",
           value: `${codeBlock(
-            `- ${CREATED_SINCE_FORMAT}\n- ${CREATED_AT_DATE_FORMAT}\n- ${CREATED_AT_TIME_FORMAT}`
+            `- ${createdSinceFormat}\n- ${createdAtDateFormat}\n- ${createdAtTimeFormat}`
           )}`,
           inline: true,
         },
         {
           name: "Joined at:",
           value: `${codeBlock(
-            `- ${JOINED_SINCE_FORMAT}\n- ${JOINED_AT_DATE_FORMAT}\n- ${JOINED_AT_TIME_FORMAT}`
+            `- ${joinedSinceFormat}\n- ${joinedAtDateFormat}\n- ${joinedAtTimeFormat}`
           )}`,
           inline: true,
         }
       );
 
     // Display banner or color banner if null, otherwise display nothing
-    if (targetUser.bannerURL() != null) {
+    // if (targetUser.bannerURL() != null) {
+    //   inspectUserEmbed.setImage(`${targetUser.bannerURL({ size: 1024 })}`);
+    // } else if (targetUser.accentColor) {
+    //   inspectUserEmbed.setImage(
+    //     `https://www.singlecolorimage.com/get/${targetUser.accentColor}/600x150`
+    //   );
+    // }
+
+    if (!targetUser.bannerURL()) {
+      if (targetUser.accentColor) {
+        const accentColorImage = `https://www.singlecolorimage.com/get/${targetUser.accentColor}/600x150`;
+        inspectUserEmbed.setImage(accentColorImage);
+      }
+    } else {
       inspectUserEmbed.setImage(`${targetUser.bannerURL({ size: 1024 })}`);
-    } else if (targetUser.accentColor) {
-      inspectUserEmbed.setImage(
-        `https://www.singlecolorimage.com/get/${targetUser.accentColor}/600x150`
-      );
     }
 
     await interaction.reply({
       embeds: [inspectUserEmbed],
-      ephemeral: ephemeral != null ? (ephemeral === true ? true : false) : true,
+      ephemeral: !isEphemeral ? true : isEphemeral === true ? true : false,
     });
     return;
   },

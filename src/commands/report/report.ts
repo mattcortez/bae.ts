@@ -21,8 +21,8 @@ export const command: Command = {
         .setRequired(true)
     ),
   global: false,
-  userPermissions: [`SendMessages`],
-  botPermissions: [`SendMessages`],
+  userPermissions: [],
+  botPermissions: [],
   cooldown: 5000,
   execute: async ({ client, interaction, log }) => {
     const user = interaction.options.getUser("user", true) || interaction.user;
@@ -30,7 +30,7 @@ export const command: Command = {
     const targetGuildUser = await interaction.guild?.members.fetch(user);
 
     const reportModal = new ModalBuilder()
-      .setCustomId("testModal")
+      .setCustomId("reportModal")
       .setTitle("Report");
 
     const reportInput = new TextInputBuilder()
@@ -40,7 +40,7 @@ export const command: Command = {
       .setMaxLength(1000)
       .setLabel(`📫 Write a comment about ${targetGuildUser?.displayName}`)
       .setStyle(TextInputStyle.Paragraph)
-      .setPlaceholder("Advertising...");
+      .setPlaceholder("Advertising, discriminating...");
 
     const actionRow =
       new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents([
@@ -50,5 +50,16 @@ export const command: Command = {
     reportModal.addComponents([actionRow]);
 
     await interaction.showModal(reportModal);
+    await interaction
+      .awaitModalSubmit({
+        time: 10_000,
+        filter: (i) => i.user.id === interaction.user.id,
+      })
+      .catch((error) => {
+        log(
+          `${interaction.user.tag} cancelled modal or has surpassed recommended time`
+        );
+        return null;
+      });
   },
 };

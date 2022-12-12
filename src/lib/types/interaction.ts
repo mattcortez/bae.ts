@@ -1,4 +1,5 @@
 import {
+  AnySelectMenuInteraction,
   Awaitable,
   ButtonInteraction,
   ModalSubmitInteraction,
@@ -9,7 +10,10 @@ type LoggerFunction = (...args: unknown[]) => void;
 
 export interface InteractionProperties {
   client: BaeClient;
-  interaction: ButtonInteraction | ModalSubmitInteraction;
+  interaction:
+    | ButtonInteraction
+    | ModalSubmitInteraction
+    | AnySelectMenuInteraction;
   log: LoggerFunction;
 }
 

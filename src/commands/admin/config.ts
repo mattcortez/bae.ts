@@ -2,11 +2,9 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  ChannelType,
   EmbedBuilder,
   SlashCommandBuilder,
-  TextChannel,
-  ThreadAutoArchiveDuration,
+  StringSelectMenuBuilder,
 } from "discord.js";
 import DB from "@bae/lib/structures/schemas/configDB";
 import Command from "@bae/lib/structures/command";
@@ -26,16 +24,6 @@ export const command: Command = {
   cooldown: 5000,
   execute: async ({ client, interaction, log }) => {
     log("Config command");
-
-    // const channel: TextChannel =
-    //   client.channels.cache.get(`982020497552334848`);
-    // if (!channel) return;
-    // const thread = await channel.threads.create({
-    //   name: "Bae Logs",
-    //   autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
-    //   type: ChannelType.PrivateThread,
-    // });
-    // console.log(thread);
     const { guild } = interaction;
 
     const FUNCTION_ERROR_EMOJI = "<:functionError:972554416970399825>";
@@ -150,21 +138,38 @@ export const command: Command = {
                   .setLabel("Roll again")
                   .setStyle(ButtonStyle.Secondary)
               );
+            const actionRow2 =
+              new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+                new StringSelectMenuBuilder()
+                  .setCustomId("testSelectMenu")
+                  .setPlaceholder("example placeholder")
+                  .addOptions(
+                    {
+                      label: "Select me",
+                      description: "Your mom",
+                      value: "first_option",
+                    },
+                    {
+                      label: "Select me2",
+                      description: "Your mom2",
+                      value: "second_option",
+                    }
+                  )
+              );
+
+            interaction.reply({
+              embeds: [configEmbed],
+              components: [actionRow, actionRow2],
+              ephemeral: false,
+            });
 
             const savedEmbed = new EmbedBuilder()
               .setColor(`#2f3136`)
               .setDescription(
                 `${FUNCTION_SUCCESS_EMOJI} **Saved settings and exited configuration menu.**`
               );
-
-            interaction.reply({
-              embeds: [configEmbed],
-              components: [actionRow],
-              ephemeral: false,
-            });
-
             setTimeout(function () {
-              interaction.editReply({ embeds: [savedEmbed] });
+              interaction.editReply({ embeds: [savedEmbed], components: [] });
             }, 120 * 1000);
           }
           return;

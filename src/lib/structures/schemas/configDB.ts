@@ -5,22 +5,33 @@ export default model(
   new Schema({
     guildId: { type: String, required: true, unique: true },
     logging: {
+      currentSelect: { type: String, default: null },
       enabled: { type: Boolean, default: false },
-      messageLogChannel: { type: String, default: null },
-      modLogChannel: { type: String, default: null },
-      travelLogChannel: { type: String, default: null },
-      threadLogChannel: { type: String, default: null },
-      userLogChannel: { type: String, default: null },
+      moderationChannel: { type: String, default: null },
+      messageChannel: { type: String, default: null },
+      threadChannel: { type: String, default: null },
+      travelChannel: { type: String, default: null },
+      userChannel: { type: String, default: null },
+      reportsChannel: { type: String, default: null },
     },
-    joinAge: {
+    moderation: {
       enabled: { type: Boolean, default: false },
+      adminImmunity: {
+        enabled: { type: Boolean, default: false },
+      },
+      bypassRole: { type: String, default: null },
       joinAge: { type: String, default: null },
+      noBlankAvatar: {
+        enabled: { type: Boolean, default: false },
+      },
     },
-    blankAvatar: {
-      enabled: { type: Boolean, default: false },
-    },
-    adminImmunity: {
-      enabled: { type: Boolean, default: false },
+    features: {
+      messageLinkPreview: {
+        enabled: { type: Boolean, default: false },
+      },
+      messageLeaderboard: {
+        enabled: { type: Boolean, default: false },
+      },
     },
   })
 );

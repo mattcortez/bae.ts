@@ -1,3 +1,6 @@
+import Interaction from "@bae/lib/structures/interaction";
+import { constants } from "@bae/lib/utils/constants";
+import configDB from "@bae/lib/structures/schemas/configDB";
 import {
   ActionRowBuilder,
   blockQuote,
@@ -9,31 +12,26 @@ import {
   HexColorString,
   inlineCode,
   roleMention,
-  SlashCommandBuilder,
+  StringSelectMenuBuilder,
 } from "discord.js";
-import { constants } from "@bae/lib/utils/constants";
-import configDB from "@bae/lib/structures/schemas/configDB";
-import Command from "@bae/lib/structures/command";
 
 const { emojis, colors } = constants;
 
-export const command: Command = {
-  options: new SlashCommandBuilder()
-    .setName("config")
-    .setDescription(
-      "Display the guild's configuration in a dynamically updating embed"
-    )
-    .setDMPermission(false),
-  global: false,
-  userPermissions: [`Administrator`],
-  botPermissions: [],
-  cooldown: 5_000,
+export const interaction: Interaction = {
+  name: "configLoggingEnable",
+  permissions: [],
   execute: async ({ client, interaction, log }) => {
-    log("Config command");
+    log(`${interaction.user.tag} clicked on configLoggingEnable`);
+
+    if (!interaction.isButton()) return;
     const { guild } = interaction;
     if (!guild) return;
 
-    let data = await configDB.findOne({ guildId: guild.id });
+    let data = await configDB.findOneAndUpdate(
+      { guildId: guild.id },
+      { $set: { "logging.enabled": true } },
+      { returnOriginal: false, upsert: true }
+    );
     if (!data) data = await configDB.create({ guildId: guild.id });
 
     const moderationChannel = getChannelName(data.logging?.moderationChannel);
@@ -149,30 +147,85 @@ export const command: Command = {
       new ButtonBuilder()
         .setCustomId("configLogging")
         .setLabel("Logging")
-        .setStyle(ButtonStyle.Primary),
-      new ButtonBuilder()
-        .setCustomId("configModeration")
-        .setLabel("Moderation")
-        .setStyle(ButtonStyle.Primary),
-      new ButtonBuilder()
-        .setCustomId("configFeatures")
-        .setLabel("Features")
         .setStyle(ButtonStyle.Primary)
+        .setDisabled(true),
+      new ButtonBuilder()
+        .setCustomId("configLoggingDisable")
+        .setLabel(data.logging?.enabled ? "Disable" : "Enable")
+        .setStyle(
+          data.logging?.enabled ? ButtonStyle.Success : ButtonStyle.Secondary
+        )
+        .setEmoji(
+          data.logging?.enabled
+            ? emojis.config.toggleOn
+            : emojis.config.toggleOff
+        )
     );
 
-    const actionRow2 = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    const actionRow2 =
+      new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+        new StringSelectMenuBuilder()
+          .setCustomId("configLoggingSelectLog")
+          .setPlaceholder("Select a log to configure")
+          .setMaxValues(1)
+          .setOptions(
+            {
+              label: `Moderation Logs`,
+              value: `moderation_option`,
+              emoji: data.logging?.moderationChannel
+                ? emojis.config.buttonOn
+                : emojis.config.buttonOff,
+            },
+            {
+              label: `Message Logs`,
+              value: `message_option`,
+              emoji: data.logging?.messageChannel
+                ? emojis.config.buttonOn
+                : emojis.config.buttonOff,
+            },
+            {
+              label: `Thread Logs`,
+              value: `thread_option`,
+              emoji: data.logging?.threadChannel
+                ? emojis.config.buttonOn
+                : emojis.config.buttonOff,
+            },
+            {
+              label: `Travel Logs`,
+              value: `travel_option`,
+              emoji: data.logging?.travelChannel
+                ? emojis.config.buttonOn
+                : emojis.config.buttonOff,
+            },
+            {
+              label: `User Logs`,
+              value: `user_option`,
+              emoji: data.logging?.userChannel
+                ? emojis.config.buttonOn
+                : emojis.config.buttonOff,
+            },
+            {
+              label: `Reports Channel`,
+              value: `reports_option`,
+              emoji: data.logging?.reportsChannel
+                ? emojis.config.buttonOn
+                : emojis.config.buttonOff,
+            }
+          )
+          .setDisabled(data.logging?.enabled ? false : true)
+      );
+
+    const actionRow3 = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId("configExit")
-        .setLabel("Exit")
+        .setCustomId("configBack")
+        .setLabel("Back")
         .setStyle(ButtonStyle.Secondary)
         .setEmoji(emojis.arrowBackward)
     );
 
-    return interaction.reply({
+    await interaction.update({
       embeds: [configEmbed],
-      components: [actionRow1, actionRow2],
-      ephemeral: true,
-      fetchReply: true,
+      components: [actionRow1, actionRow2, actionRow3],
     });
 
     function getChannelName(data: any): string {

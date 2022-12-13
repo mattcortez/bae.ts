@@ -1,3 +1,5 @@
+import Interaction from "@bae/lib/structures/interaction";
+import { constants } from "@bae/lib/utils/constants";
 import {
   ActionRowBuilder,
   blockQuote,
@@ -9,27 +11,18 @@ import {
   HexColorString,
   inlineCode,
   roleMention,
-  SlashCommandBuilder,
 } from "discord.js";
-import { constants } from "@bae/lib/utils/constants";
 import configDB from "@bae/lib/structures/schemas/configDB";
-import Command from "@bae/lib/structures/command";
 
 const { emojis, colors } = constants;
 
-export const command: Command = {
-  options: new SlashCommandBuilder()
-    .setName("config")
-    .setDescription(
-      "Display the guild's configuration in a dynamically updating embed"
-    )
-    .setDMPermission(false),
-  global: false,
-  userPermissions: [`Administrator`],
-  botPermissions: [],
-  cooldown: 5_000,
+export const interaction: Interaction = {
+  name: "configBack",
+  permissions: [],
   execute: async ({ client, interaction, log }) => {
-    log("Config command");
+    log(`${interaction.user.tag} clicked on configBack`);
+    if (!interaction.isButton()) return;
+
     const { guild } = interaction;
     if (!guild) return;
 
@@ -168,11 +161,9 @@ export const command: Command = {
         .setEmoji(emojis.arrowBackward)
     );
 
-    return interaction.reply({
+    return interaction.update({
       embeds: [configEmbed],
       components: [actionRow1, actionRow2],
-      ephemeral: true,
-      fetchReply: true,
     });
 
     function getChannelName(data: any): string {

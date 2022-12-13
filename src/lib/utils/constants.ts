@@ -3,6 +3,8 @@ let emojis = {
   error: "<:functionError:972554416970399825>",
   warning: "<:systemWarn:978353079000920117>",
   cooldown: "<:messageTime:980535785084305458>",
+  arrowBackward: "<:arrowBackward:972602029631475712>",
+  arrowForward: "<:arrowForward:972602029677629460>",
   log: {
     ban: "<:logBan:1050335451912876043>",
     banRemove: "<:logBanRemove:1050335453154398208>",
@@ -20,7 +22,7 @@ let emojis = {
     buttonOff: "<:configButtonOff:1005970996215431278>",
     buttonOn: "<:configButtonOn:1005970971355783198>",
     toggleOff: "<:configToggleOff:1005583615658303519>",
-    toggleOn: "<:configToggleOn:1005583586281390080",
+    toggleOn: "<:configToggleOn:1005583586281390080>",
   },
 };
 

@@ -5,16 +5,18 @@ import { bold, EmbedBuilder, HexColorString } from "discord.js";
 const { emojis, colors } = constants;
 
 export const interaction: Interaction = {
-  name: "testSelectMenu",
+  name: "configExit",
   permissions: [],
   execute: async ({ client, interaction, log }) => {
-    log(`${interaction.user.tag} test slectmenu`);
-    const content = bold(`${emojis.success} SLECT MENU TEST`);
+    log(`${interaction.user.tag} clicked on configExit`);
+    if (!interaction.isButton()) return;
 
-    const modalSuccessEmbed = new EmbedBuilder()
+    const savedEmbed = new EmbedBuilder()
       .setColor(colors.embed.default as HexColorString)
-      .setDescription(content);
+      .setDescription(
+        bold(`${emojis.success} Saved settings and exited configuration menu.`)
+      );
 
-    interaction.reply({ embeds: [modalSuccessEmbed], ephemeral: true });
+    return interaction.update({ embeds: [savedEmbed], components: [] });
   },
 };

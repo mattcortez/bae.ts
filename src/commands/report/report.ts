@@ -6,7 +6,6 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
-//import { constants } from "@bae/lib/utils/constants";
 import Command from "@bae/lib/structures/command";
 
 export const command: Command = {
